@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Weather from "./components/Weather.js";
 import Forecast from "./components/Forecast.js";
+import Weathermap from "./components/Weathermap.js";
 import Context from "./Context";
+
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -10,10 +12,14 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
   const [forecast, setForecast] = useState(null);
+  const [latlon, SetLatLon] = useState([48.8534, 2.3488]);
   const apikey = process.env.REACT_APP_API_KEY;
 
-  let contextObj = { location, weather, forecast };
+  let contextObj = { location, weather, forecast, latlon };
 
+  useEffect(() => {
+    getWeather("London");
+  }, []);
   async function pause(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
@@ -31,7 +37,13 @@ function App() {
     event.preventDefault();
     getForecast(location);
   }
-
+  //helper to convert latlon object to an array
+  function convertLatLong(obj) {
+    console.log(Object.values(obj));
+    let newarr = Object.values(obj);
+    //SetLatLon(newarr.reverse());
+    SetLatLon((Object.values(obj)).reverse());
+  }
   async function getWeather(location) {
     // call Open Weather API
     setLoading(true);
@@ -46,6 +58,7 @@ function App() {
       if (response.ok) {
         let data = await response.json();
         setWeather(data);
+        convertLatLong(data.coord);    
       } else {
         setError(`Server error: ${response.state} ${response.statusText}`);
       }
@@ -108,9 +121,11 @@ function App() {
       </form>
       {loading && <h2>Loading...</h2>}
       {error && <h2 style={{ color: "red" }}>{error}</h2>}
+   
       <Context.Provider value={contextObj}>
         <Weather />
         <Forecast />
+        <Weathermap />
       </Context.Provider>
     </div>
   );

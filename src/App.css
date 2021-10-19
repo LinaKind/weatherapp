@@ -10,6 +10,10 @@ body {
   letter-spacing: 1px;
 }
 
+.leaflet-control-container {
+  height: 500px;
+}
+
 nav {
   background-color: #a7cae6;
   padding: 20px;
