@@ -5,6 +5,7 @@ import Forecast from "./components/Forecast.js";
 import Weathermap from "./components/Weathermap.js";
 import {getLocation} from "./helpers/userLocation.js";
 import Context from "./Context";
+import fonts from "./fonts.css"
 
 
 function App() {
@@ -25,8 +26,10 @@ function App() {
     let userhome = await getLocation(); 
     if (userhome) {
       getWeather(userhome);
+      setLocation(userhome);
     } else {
       getWeather("London");
+ 
     }
     
 }
@@ -38,33 +41,6 @@ doAsyncAsSync();
   async function pause(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
-
- /* const readData = async () => {
-    try {
-      const userlocation = await getLocation();
-      console.log(userlocation);
-    } catch (err) {
-      console.log(err);
-    }
-  }*/
-
-  /*const getLocation = () => {
-    if (!navigator.geolocation) {
-     // setStatus('Geolocation is not supported by your browser');
-    } else {
-      //setStatus('Locating...');
-      navigator.geolocation.getCurrentPosition((position) => {
-       // setStatus(null);
-        SetNewOne([position.coords.latitude, position.coords.longitude])
-        let x = reverseGeocoding(position.coords.latitude, position.coords.longitude)
-        console.log(x);
-        //setLat(position.coords.latitude);
-        //setLng(position.coords.longitude);
-      }, () => {
-       // setStatus('Unable to retrieve your location');
-      });
-    }
-  }*/
 
   function handleChange(event) {
     setLocation(event.target.value);
@@ -88,18 +64,6 @@ doAsyncAsSync();
     SetLatLon((Object.values(obj)).reverse());
   }
 
- /* const getLocation = () => {
-    if (!navigator.geolocation) {
-      console.log("Geo Location not supported by your browser")
-    } else {
-      navigator.geolocation.getCurrentPosition((position) => {
-        console.log([position.coords.latitude, position.coords.longitude]);
-        SetLatLon([position.coords.latitude, position.coords.longitude]);
-      }, () => {
-        console.log("Unable to get location")
-      });
-    }
-  }*/
   async function getWeather(location) {
     // call Open Weather API
     setLoading(true);
@@ -112,6 +76,8 @@ doAsyncAsSync();
       );
       if (response.ok) {
         let data = await response.json();
+        console.log(response);
+        console.log(data);
         setWeather(data);
         convertLatLong(data.coord);    
       } else {
@@ -135,6 +101,7 @@ doAsyncAsSync();
       );
       if (response.ok) {
         let forecast = await response.json();
+        console.log(response);
         setForecast(forecast);
       } else {
         setError(`Server error: ${response.state} ${response.statusText}`);

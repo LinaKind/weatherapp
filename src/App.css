@@ -5,19 +5,23 @@ body {
     rgba(167, 202, 230, 1) 0%,
     rgba(212, 255, 254, 1) 71%
   );
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  font-family: 'Roboto Mono', monospace;
   letter-spacing: 1px;
 }
-
+h1 {
+  font-size: 1.8vw;
+}
 .leaflet-control-container {
+  
   height: 500px;
 }
 
 nav {
-  background-color: #a7cae6;
+ 
   padding: 20px;
   height: 60px;
+  font-family: 'Architects Daughter', cursive;
+
 }
 #App {
   width: 800px;
@@ -28,14 +32,16 @@ nav {
 .form {
   display: grid;
   grid-template-columns: 2fr 1fr;
-  background-color: whitesmoke;
+  /*background-color: whitesmoke;*/
   padding: 20px;
   margin-top: 20px;
   border: solid #dcdcdc 1px;
+  border-radius: 10px;
 }
 
 input {
-  color: #555;
+  color: #dcdcdc;
+  background-color: #b3edff;
   padding: 10px 6px;
   width: 50%;
   box-sizing: border-box;
@@ -57,9 +63,14 @@ button {
   font-weight: bold;
 }
 
+button:hover {
+  background-color: #b3edff;
+}
+
 #button {
   text-align: center;
 }
+
 
 #left {
   margin-left: 60px;

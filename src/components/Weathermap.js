@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Context from "../Context";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
+import "../components/Weathermap.css"
 
 const L = window.L;
 
@@ -17,12 +18,12 @@ function Weathermap() {
 });
     let { latlon, weather } = useContext(Context);
     return (
-        <div>
+        <div className="map">
              <MapContainer 
              //creates a new mapcontainer component everytime latlon state gets update
              key={JSON.stringify(latlon)}
              center={latlon} 
-             zoom={10} 
+             zoom={12} 
              scrollWheelZoom={false}>
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -33,9 +34,9 @@ function Weathermap() {
                 {weather && (
         <div>
           <p>
-            The temperature in {weather.name} is {Math.round(weather.main.temp)}
-            °C. Feels like {Math.round(weather.main.feels_like)} °C. Humidity -{" "}
-            {weather.main.humidity} %.
+          
+            {weather.weather[0].main}
+            <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}/>
           </p>
         </div>
       )}

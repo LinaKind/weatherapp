@@ -16,6 +16,7 @@ function Forecast(props) {
               <div id="card" key={u.dt}>
                 {u.dt_txt.substr(0, 10)}{" "}
                 <p id="temp">{Math.round(u.main.temp)} °C </p>
+              {  <img src={`http://openweathermap.org/img/wn/${u.weather[0].icon}@2x.png`}/>}
               </div>
             ))}
         </div>

@@ -1,8 +1,9 @@
 #temperature {
-    background-color: whitesmoke;
+    background-color: #b3edff;
     border: solid #dcdcdc 1px;
     border-radius: 2px;
     padding: 20px;
     margin-top: 20px;
+    border-radius: 10px;
   }
   
