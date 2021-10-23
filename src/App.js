@@ -3,6 +3,7 @@ import "./App.css";
 import Weather from "./components/Weather.js";
 import Forecast from "./components/Forecast.js";
 import Weathermap from "./components/Weathermap.js";
+import {getLocation} from "./helpers/userLocation.js";
 import Context from "./Context";
 
 
@@ -12,21 +13,63 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
   const [forecast, setForecast] = useState(null);
-  const [latlon, SetLatLon] = useState([48.8534, 2.3488]);
-  const apikey = process.env.REACT_APP_API_KEY;
+  const [latlon, SetLatLon] = useState(null);
 
+
+
+  const apikey = process.env.REACT_APP_API_KEY;
   let contextObj = { location, weather, forecast, latlon };
 
-  useEffect(() => {
-    getWeather("London");
+ useEffect(() => {
+  async function doAsyncAsSync() {
+    let userhome = await getLocation(); 
+    if (userhome) {
+      getWeather(userhome);
+    } else {
+      getWeather("London");
+    }
+    
+}
+
+doAsyncAsSync(); 
+  
   }, []);
+
   async function pause(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
+ /* const readData = async () => {
+    try {
+      const userlocation = await getLocation();
+      console.log(userlocation);
+    } catch (err) {
+      console.log(err);
+    }
+  }*/
+
+  /*const getLocation = () => {
+    if (!navigator.geolocation) {
+     // setStatus('Geolocation is not supported by your browser');
+    } else {
+      //setStatus('Locating...');
+      navigator.geolocation.getCurrentPosition((position) => {
+       // setStatus(null);
+        SetNewOne([position.coords.latitude, position.coords.longitude])
+        let x = reverseGeocoding(position.coords.latitude, position.coords.longitude)
+        console.log(x);
+        //setLat(position.coords.latitude);
+        //setLng(position.coords.longitude);
+      }, () => {
+       // setStatus('Unable to retrieve your location');
+      });
+    }
+  }*/
+
   function handleChange(event) {
     setLocation(event.target.value);
   }
+
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -44,6 +87,19 @@ function App() {
     //SetLatLon(newarr.reverse());
     SetLatLon((Object.values(obj)).reverse());
   }
+
+ /* const getLocation = () => {
+    if (!navigator.geolocation) {
+      console.log("Geo Location not supported by your browser")
+    } else {
+      navigator.geolocation.getCurrentPosition((position) => {
+        console.log([position.coords.latitude, position.coords.longitude]);
+        SetLatLon([position.coords.latitude, position.coords.longitude]);
+      }, () => {
+        console.log("Unable to get location")
+      });
+    }
+  }*/
   async function getWeather(location) {
     // call Open Weather API
     setLoading(true);
@@ -54,7 +110,6 @@ function App() {
       let response = await fetch(
         `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apikey}&units=metric`
       );
-      console.log(response);
       if (response.ok) {
         let data = await response.json();
         setWeather(data);
