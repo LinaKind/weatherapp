@@ -4,6 +4,7 @@ import Weather from "./components/Weather.js";
 import Forecast from "./components/Forecast.js";
 import Weathermap from "./components/Weathermap.js";
 import {getLocation} from "./helpers/userLocation.js";
+import { getSetRise } from "./helpers/SunsetSunriseApi.js";
 import Context from "./Context";
 import fonts from "./fonts.css"
 
@@ -14,19 +15,22 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [error, setError] = useState("");
   const [forecast, setForecast] = useState(null);
-  const [latlon, SetLatLon] = useState(null);
-
+  const [latlon, SetLatLon] = useState([51.5072, 0.1276]);
+  const [SetRise, NewSetRise] = useState(null);
 
 
   const apikey = process.env.REACT_APP_API_KEY;
-  let contextObj = { location, weather, forecast, latlon };
+  let contextObj = { location, weather, forecast, latlon, SetRise };
 
  useEffect(() => {
   async function doAsyncAsSync() {
     let userhome = await getLocation(); 
     if (userhome) {
-      getWeather(userhome);
-      setLocation(userhome);
+      getWeather(userhome.city);
+      setLocation(userhome.city);
+      SetLatLon([userhome.latitude, userhome.longitude])
+      let thetimes = await getSetRise(latlon[0], latlon[1]);
+      NewSetRise(thetimes);
     } else {
       getWeather("London");
  
@@ -56,12 +60,22 @@ doAsyncAsSync();
     event.preventDefault();
     getForecast(location);
   }
+
+  async function getSunriseSunset(array) {
+   let data = await getSetRise(array[0], array[1]);
+   NewSetRise(data);
+   console.log(data);
+
+  }
   //helper to convert latlon object to an array
   function convertLatLong(obj) {
     console.log(Object.values(obj));
     let newarr = Object.values(obj);
+    console.log(newarr)
     //SetLatLon(newarr.reverse());
     SetLatLon((Object.values(obj)).reverse());
+    getSunriseSunset((Object.values(obj)).reverse());
+    
   }
 
   async function getWeather(location) {

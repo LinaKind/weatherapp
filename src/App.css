@@ -1,15 +1,11 @@
 body {
-  background: rgb(167, 202, 230);
-  background: linear-gradient(
-    90deg,
-    rgba(167, 202, 230, 1) 0%,
-    rgba(212, 255, 254, 1) 71%
-  );
+ 
+
   font-family: 'Roboto Mono', monospace;
   letter-spacing: 1px;
 }
 h1 {
-  font-size: 1.8vw;
+  font-size: 2.3vw;
 }
 .leaflet-control-container {
   
@@ -40,12 +36,12 @@ nav {
 }
 
 input {
-  color: #dcdcdc;
-  background-color: #b3edff;
+  
+  border-bottom: #dcdcdc solid 1px;
   padding: 10px 6px;
   width: 50%;
   box-sizing: border-box;
-  border-bottom: 2px solid #ddd;
+  border: none;
   margin-left: 20px;
   margin-right: 20px;
   margin-top: 5px;

@@ -16,7 +16,7 @@ function Weathermap() {
     nameAnchor: [1, -34],
     shadowSize: [41, 41]
 });
-    let { latlon, weather } = useContext(Context);
+    let { latlon, weather, SetRise } = useContext(Context);
     return (
         <div className="map">
              <MapContainer 
@@ -34,9 +34,18 @@ function Weathermap() {
                 {weather && (
         <div>
           <p>
-          
-            {weather.weather[0].main}
+            <div>
             <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}/>
+            {weather.weather[0].main}
+            </div>
+            <div>
+            <img src="https://img.icons8.com/external-flatart-icons-flat-flatarticons/64/000000/external-sunrise-nature-flatart-icons-flat-flatarticons.png"/>
+            {SetRise.sunrise}
+            </div>
+            <div>
+            <img src="https://img.icons8.com/external-flatart-icons-flat-flatarticons/64/000000/external-sunset-nature-flatart-icons-flat-flatarticons.png"/>
+            {SetRise.sunset}
+            </div>
           </p>
         </div>
       )}
