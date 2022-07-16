@@ -31,6 +31,7 @@ function App() {
         NewSetRise(thetimes);
       } else {
         getWeather("London");
+        getSunriseSunset([-0.1257, 51.5085]);
       }
     }
 
