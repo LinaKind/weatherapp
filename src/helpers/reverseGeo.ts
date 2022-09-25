@@ -3,7 +3,7 @@ import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
 
 const baseurl = "https://api.opencagedata.com/geocode/v1/json?";
-const geokey = "key=d875dd45373e44eab8e30c1e2bc93aac";
+const geokey = `key=${process.env.REACT_APP_GEOCODE_KEY}`;
 
 const Location = D.struct({
   suburb: D.string,
