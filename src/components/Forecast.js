@@ -12,11 +12,16 @@ function Forecast(props) {
             .filter((e, ix) => {
               return ix % 8 === 0;
             })
-            .map(u => (
+            .map((u) => (
               <div id="card" key={u.dt}>
                 {u.dt_txt.substr(0, 10)}{" "}
                 <p id="temp">{Math.round(u.main.temp)} °C </p>
-              {  <img src={`http://openweathermap.org/img/wn/${u.weather[0].icon}@2x.png`}/>}
+                {
+                  <img
+                    alt=""
+                    src={`http://openweathermap.org/img/wn/${u.weather[0].icon}@2x.png`}
+                  />
+                }
               </div>
             ))}
         </div>
