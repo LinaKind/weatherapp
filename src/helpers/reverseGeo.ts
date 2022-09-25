@@ -1,6 +1,7 @@
 import * as D from "io-ts/Decoder";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
+import { handleAsyncError } from "./handleAsyncError";
 
 const baseurl = "https://api.opencagedata.com/geocode/v1/json?";
 const geokey = `key=${process.env.REACT_APP_GEOCODE_KEY}`;
@@ -27,11 +28,8 @@ async function reverseGeocoding(lat: string, long: string) {
     } else {
       console.log("Server error:", response.status, response.statusText);
     }
-  } catch (error) {
-    const additionalErrorMessage = "Failed to do something";
-    error instanceof Error
-      ? console.log("Network error:", error.message)
-      : console.log(additionalErrorMessage);
+  } catch (error: any) {
+    handleAsyncError(error);
   }
 }
 
