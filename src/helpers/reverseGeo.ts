@@ -1,17 +1,15 @@
 import * as D from "io-ts/Decoder";
 import * as E from "fp-ts/Either";
 import { pipe } from "fp-ts/function";
-import { handleAsyncError } from "./handleAsyncError";
-
-const baseurl = "https://api.opencagedata.com/geocode/v1/json?";
-const geokey = `key=${process.env.REACT_APP_GEOCODE_KEY}`;
+import { handleAsyncError } from "./handle-async-error";
+import { createReverseGeoUrl } from "../utils/define-urls";
 
 const Location = D.struct({
   suburb: D.string,
 });
 
 async function reverseGeocoding(lat: string, long: string) {
-  let url = `${baseurl}${geokey}&q=${lat}+${long}`;
+  let url = createReverseGeoUrl(lat, long);
   try {
     let response = await fetch(url);
     if (response.ok) {

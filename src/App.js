@@ -6,6 +6,10 @@ import Weathermap from "./components/Weathermap.js";
 import { getLocation } from "./helpers/userLocation.js";
 import { getSetRise } from "./helpers/SunsetSunriseApi.js";
 import Context from "./Context";
+import {
+  createOpenWeatherUrl,
+  createOpenWeatherUrlForForecast,
+} from "./utils/define-urls";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -16,7 +20,6 @@ function App() {
   const [latlon, SetLatLon] = useState([51.5072, 0.1276]);
   const [SetRise, NewSetRise] = useState(null);
 
-  const apikey = process.env.REACT_APP_API_KEY;
   let contextObj = { location, weather, forecast, latlon, SetRise };
 
   useEffect(() => {
@@ -78,9 +81,7 @@ function App() {
     setWeather(null);
     await pause(1000);
     try {
-      let response = await fetch(
-        `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apikey}&units=metric`
-      );
+      let response = await fetch(createOpenWeatherUrl(location));
       if (response.ok) {
         let data = await response.json();
         console.log(response);
@@ -103,9 +104,7 @@ function App() {
     setForecast(null);
     await pause(1000);
     try {
-      let response = await fetch(
-        `http://api.openweathermap.org/data/2.5/forecast?q=${location}&units=metric&appid=${apikey}`
-      );
+      let response = await fetch(createOpenWeatherUrlForForecast(location));
       if (response.ok) {
         let forecast = await response.json();
         console.log(response);
