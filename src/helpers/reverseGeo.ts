@@ -5,7 +5,7 @@ import { handleAsyncError } from "./handle-async-error";
 import { createReverseGeoUrl } from "../utils/define-urls";
 
 const Location = D.struct({
-  suburb: D.string,
+  village: D.string,
 });
 
 async function reverseGeocoding(lat: string, long: string) {
@@ -20,7 +20,7 @@ async function reverseGeocoding(lat: string, long: string) {
         Location.decode,
         E.match(
           (error) => `Error is ${error}`,
-          (location) => location.suburb
+          (location) => location.village
         )
       );
     } else {
