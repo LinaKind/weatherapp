@@ -6,8 +6,8 @@ import Weathermap from "./components/Weathermap.js";
 import { getLocation } from "./helpers/userLocation.js";
 import { getSetRise } from "./helpers/SunsetSunriseApi.js";
 import Context from "./Context";
-import { createOpenWeatherUrlForForecast } from "./utils/define-urls";
 import { getWeatherData } from "./api-calls/get-weather-data";
+import { getForecastData } from "./api-calls/get-forecast-data";
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -40,10 +40,6 @@ function App() {
     doAsyncAsSync();
   }, []);
 
-  async function pause(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
   function handleChange(event) {
     setLocation(event.target.value);
   }
@@ -74,31 +70,14 @@ function App() {
   }
 
   async function getWeather(location) {
-    await pause(1000);
     const data = await getWeatherData(location);
     setWeather(data);
     convertLatLong(data.coord);
   }
 
   async function getForecast(location) {
-    // call Open Weather API
-    setLoading(true);
-    setError("");
-    setForecast(null);
-    await pause(1000);
-    try {
-      let response = await fetch(createOpenWeatherUrlForForecast(location));
-      if (response.ok) {
-        let forecast = await response.json();
-        console.log(response);
-        setForecast(forecast);
-      } else {
-        setError(`Server error: ${response.state} ${response.statusText}`);
-      }
-    } catch (err) {
-      setError(`Network error: ${err.message}`);
-    }
-    setLoading(false);
+    const data = await getForecastData(location);
+    setForecast(data);
   }
 
   return (
